@@ -1,0 +1,56 @@
+from PIL import Image
+import numpy as np
+
+# 이미지 로드
+image_path = 'ggobugi.jpg'
+image = Image.open(image_path)
+
+# 이미지를 배열로 변환
+pixel_data = np.array(image)
+
+# 이미지 크기 출력
+print("이미지 크기:", pixel_data.shape)  # (높이, 너비, 채널(RGB))
+
+# 픽셀 데이터 확인
+print("픽셀 데이터:")
+print(pixel_data)
+
+import matplotlib.pyplot as plt
+
+# 이미지를 배열로 변환
+pixel_data = np.array(image)
+
+# 이미지 시각화
+plt.imshow(pixel_data)
+plt.axis('off')  # 축을 끄기
+plt.show()
+
+
+
+------------------------------------
+
+
+
+# 이미지 시각화
+plt.imshow(pixel_data[:, :, 0])
+plt.axis('off')  # 축을 끄기
+plt.show()
+
+
+
+------------------------------------
+
+
+# 픽셀 데이터를 이미지 객체로 생성
+image = Image.fromarray(pixel_data)
+image.show()
+
+# 파일로 저장
+image = Image.fromarray(pixel_data[:, :, 2])
+image.save('output_image.jpg')
+
+# 이미지를 그레이스케일로 변환
+gray_image = image.convert('L')
+
+# 변환된 이미지 시각화
+gray_image.show()
