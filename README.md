@@ -1,5 +1,7 @@
 # Jupyter_class
 
+파일위치 : C:\Users\denni\Jupyter 수업자료
+
 Web Crawling (Day47 ~ Day57)
 Data Science Tools (Day58 ~ Day62)
 Team Project_01 (23/06/26 ~ 06/28)
