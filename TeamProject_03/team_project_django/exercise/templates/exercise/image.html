@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image</title>
+</head>
+<body>
+    
+    <h2>이미지 안녕</h2><hr>
+    <p>원본 이미지 사진</p>
+    <img src="/media/{{ form.file }}" width="300px" height="300px"> <br>
+    {% comment %} <li>예측 결과 : {{ name }}</li> {% endcomment %}
+    <br><hr>
+    <p>예측 결과 사진</p>
+    <img src="data:image/jpeg;base64,{{img_data}}" width="300px" height="300px">
+    <h3> 예측 클래스 : {{ ex_class }} </h3>
+    <h3> 예측 결과 : {{ ex_name }} </h3>
+
+</body>
+</html>

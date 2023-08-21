@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+</head>
+<body>
+    <h2>사진 업로드 페이지 입니다</h2><hr>
+    <form method='post' enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type='submit'>업로드</button>
+    </form>
+</body>
+</html>
