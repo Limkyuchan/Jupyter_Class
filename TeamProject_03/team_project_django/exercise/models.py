@@ -15,10 +15,20 @@ class ImgModel(models.Model):
     img_data = Base64Field(max_length=900000, blank=True, null=True)
     
     # 운동 클래스 번호
-    ex_class = models.IntegerField(max_length=10)
+    ex_class = models.IntegerField()
     
     # 운동 기구 이름
     ex_name = models.CharField(max_length=50)
     
     def __str__(self):
         return f"file_name : {self.img_data}"
+    
+
+class Exercise(models.Model):
+    
+    ex_name = models.CharField(max_length=100, blank=True)
+    ex_part = models.CharField(max_length=50, blank=True)
+    ex_method = models.TextField()
+    
+    def __str__(self):
+        return f"name : {self.ex_name}, part : {self.ex_part}, method = {self.ex_method}"

@@ -2,14 +2,14 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import UploadFileForm
-from .models import ImgModel, UploadFile
+from .models import ImgModel, UploadFile, Exercise
 import torch
 import numpy as np
 import pandas as pd
 from io import BytesIO
 from PIL import Image
-import base64
 from . import inference
+import joblib
 
 # Create your views here.
 
@@ -29,7 +29,7 @@ def upload(request):
             form.save()
             
             img_url = 'media/' + str(form.cleaned_data['file'])
-            print("img_url : ", img_url)
+            print("업로드한 img_url : ", img_url)
             
             result_data = inference.inference(img_url)
             
@@ -53,38 +53,66 @@ def image(request):
     img_data = img.img_data
     ex_class = img.ex_class
     ex_name = img.ex_name
+    print("라벨링 예측 값 :" , ex_class, ex_name )
+    
+    ex_list = ['팔', '허리', '등', '가슴', '가슴', '가슴', '엉덩이', '등', '허벅지', '허벅지', '허벅지', 
+               '어깨', '허벅지']   # 운동 순서(클래스)에 따른 운동 부위
+    
+    ex_pred = ex_list[ex_class]
+    print('ex_pred 예측 값: ', ex_pred)
+    
+    yes = Exercise.objects.filter(ex_part=ex_pred)
     
     data_info = {
         'form' : form,
         'img_data' : img_data,
         'ex_class' : ex_class,
         'ex_name' : ex_name,
+        'yes' : yes,
     }
 
     return render(request, 'exercise/image.html', data_info)
 
 
 
+def machine_model(request):
+    
+    exercise = pd.read_csv("exercise/machine_learning/exercise.csv", encoding='CP949')
+    machine_name = inference.find_exercise_name(exercise, "점프 스쿼트")
+    
+    context = {
+        'machine_name' : machine_name,
+    }
+    
+    print(machine_name)
+    return render(request, 'exercise/machine.html', context)
+
+
+
+
+
+
+
 # def image(request):
     
 #     form = UploadFile.objects.last()
-#     print("파일 이름 :", form.file)
+#     print("업로드 파일 이름 :", form.file)
     
 #     model = torch.hub.load('ultralytics/yolov5', 'custom', path='./exercise/deep_learning/best.pt', force_reload=True)
 #     img = f"./media/{form.file}"
 #     result = model(img)
     
 #     result.save()
-#     print("result : ", result)
+#     print("딥러닝 학습 결과 : ", result)
 
 #     result_name = result.pandas().xyxy[0].to_dict()
-#     print("예측 결과 :", result_name)
-#     name = result_name['name'][0]
+#     print("운동기구 예측 결과 :", result_name)
+#     name = result_name['name'][0]   # 예측한 운동기구 이름
 
 #     context = {
-#         'form' : form,
-#         'name' : name,
-#         'result' : result,
+#         'form' : form,        # 파일 이름
+#         'name' : name,        # 운동기구 이름
+#         'result' : result,    # 학습 결과
 #     }
     
 #     return render(request, 'exercise/image.html', context)
