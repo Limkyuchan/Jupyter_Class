@@ -87,8 +87,6 @@ def detail(request, id):
 
 
 
-
-
 def image(request):
     
     # 올린 원본 사진
