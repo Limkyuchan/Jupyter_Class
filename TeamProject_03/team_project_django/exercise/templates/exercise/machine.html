@@ -6,9 +6,15 @@
     <title>Machine</title>
 </head>
 <body>
-    <tr> 운동 이름, 운동 부위, 운동 방법 </tr>
-    {% for name in machine_name %}
-        {{ name }}
-    {% endfor %}
+
+    {% for data in zip_data %}
+    {% with name=data.0 part=data.1 method=data.2 %}
+        운동 이름 : {{ name }} <br>
+        운동 부위 : {{ part }} <br>
+        운동 방법 : {{ method }} <br>
+        <br>
+    {% endwith %}
+    {% endfor %} 
+
 </body>
 </html>

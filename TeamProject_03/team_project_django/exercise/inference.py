@@ -3,10 +3,12 @@ import torch
 import base64
 import io
 import joblib
+import pandas as pd
+import sqlite3
 
 
 # 딥 러닝 모델 
-def inference(img):
+def deep_inference(img):
     model = torch.hub.load('ultralytics/yolov5', 'custom', path='exercise/deep_learning/best.pt', force_reload=True)
     img = Image.open(img)
     
@@ -31,22 +33,27 @@ def inference(img):
             'ex_name' : ex_name,
             'img_data' : encoded_img,
         }
-        
         return data
     
     else:
         return 1
     
 
-# 머신 러닝 모델 (운동 이름으로 예측)
-def find_exercise_name(exercise, name):
+# 머신 러닝 모델 (운동 부위로 예측)
+def machine_inference(part):
     
+    # db에 저장된 csv 내용 가져오기
+    con = sqlite3.connect("db.sqlite3")
+    df = pd.read_sql("SELECT * FROM exercise_exercise", con, index_col="id")
+    pd.set_option('display.max_colwidth', None)
+    
+    # 파일로 저장된 머신러닝 모델 활용
     exercise_weight = joblib.load('exercise/machine_learning/exercise_weight.pkl')
-    exercise_sorted_ind = exercise_weight.argsort()[:, ::-1]
+    sorted_ind = exercise_weight.argsort()[:, ::-1]
     
-    name_title = exercise[exercise['운동 이름'] == name]
+    name_title = df[df['ex_part'] == part]
     name_index = name_title.index.values
-    similar_indexes = exercise_sorted_ind[name_index, :6]
-    similar_indexes = similar_indexes.reshape(-1)
+    index = sorted_ind[name_index]
+    index = index.reshape(-1)
     
-    return exercise.iloc[similar_indexes][:6]
+    return df.iloc[index][:6]
