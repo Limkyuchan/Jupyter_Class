@@ -7,10 +7,8 @@
 </head>
 <body>
 
-    <p>예측 결과 사진</p>
+    <h3>예측 결과 사진</h3>
     <img src="data:image/jpeg;base64,{{ img_data }}" width="300px" height="300px">
-    {% comment %} <h4>예측 클래스 : {{ ex_class }}</h4>
-    <h4>예측 결과 : {{ ex_name }}</h4> {% endcomment %}
     <hr>
 
     <p><b>기구 이름</b>  {{ predict_name.ex_name }} </p>
@@ -19,10 +17,10 @@
     {{ predict_name.ex_method }}
 
     <hr>
-
+    <h3>관련 부위 추천 운동 ^^!</h3>
     {% for data in zip_data %}
     {% with name=data.0 index=data.1 %}
-        <a href="{% url 'exercise:detail' index %}">{{ name }}</a><br>
+        <li><a href="{% url 'exercise:detail' index %}">{{ name }}</a></li>
         <br>
     {% endwith %}
     {% endfor %} 

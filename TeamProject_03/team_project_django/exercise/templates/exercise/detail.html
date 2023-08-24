@@ -6,7 +6,11 @@
     <title>Detail</title>
 </head>
 <body>
-    {{ ex_detail.ex_name }}<br>
-    {{ ex_detail.ex_method}}
+    <br>
+    <p><b>기구 이름</b>&emsp;{{ ex_detail.ex_name }} </p>
+    <p><b>운동 부위</b>&emsp;{{ ex_detail.ex_part }} </p>
+    <p><b>운동 방법</b></p>
+    {{ ex_method | safe }}
+    <p><b>운동 영상 </b></p>
 </body>
 </html>

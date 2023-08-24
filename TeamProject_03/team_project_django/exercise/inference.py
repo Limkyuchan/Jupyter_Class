@@ -49,11 +49,12 @@ def machine_inference(part):
     
     # 파일로 저장된 머신러닝 모델 활용
     exercise_weight = joblib.load('exercise/machine_learning/exercise_weight.pkl')
-    sorted_ind = exercise_weight.argsort()[:, ::-1]
+    pred_result = exercise_weight.argsort()[:, ::-1]
     
     name_title = df[df['ex_part'] == part]
     name_index = name_title.index.values
-    index = sorted_ind[name_index]
+
+    index = pred_result[name_index]
     index = index.reshape(-1)
     
     return df.iloc[index][:6]
