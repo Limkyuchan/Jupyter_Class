@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine</title>
+</head>
+<body>
+
+    {% for data in zip_data %}
+    {% with name=data.0 part=data.1 method=data.2 %}
+        운동 이름 : {{ name }} <br>
+        운동 부위 : {{ part }} <br>
+        운동 방법 : {{ method }} <br>
+        <br>
+    {% endwith %}
+    {% endfor %} 
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict</title>
+</head>
+<body>
+
+    <h3>예측 결과 사진</h3>
+    <img src="data:image/jpeg;base64,{{ img_data }}" width="300px" height="300px">
+    <hr>
+
+    <p><b>기구 이름</b>  {{ predict_name.ex_name }} </p>
+    <p><b>운동 부위</b>  {{ predict_name.ex_part }} </p>
+    <p><b>운동 방법</b></p>
+    {{ predict_name.ex_method }}
+
+    <hr>
+    <h3>관련 부위 추천 운동 ^^!</h3>
+    {% for data in zip_data %}
+    {% with name=data.0 index=data.1 %}
+        <li><a href="{% url 'exercise:detail' index %}">{{ name }}</a></li>
+        <br>
+    {% endwith %}
+    {% endfor %} 
+
+
+
+
+
+    {% comment %} {% for i in index %}
+        {{ name.index }}
+        {{ name.ex_name }} <br> 
+        <a href="{% url 'exercise:detail'  %}">{{  }}</a><br>
+    {% endfor %} {% endcomment %} 
+
+    {% comment %} {% for data in zip_data %}
+    {% with name=data.0 part=data.1 method=data.2 %}
+        운동 이름 : {{ name }} <br>
+        운동 부위 : {{ part }} <br>
+        운동 방법 : {{ method }} <br>
+        <br>
+    {% endwith %}
+    {% endfor %} {% endcomment %}
+</body>
+</html>
