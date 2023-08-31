@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>INDEX</title>
+</head>
+
+  <style>
+      .slider {
+          width: 1440px;
+          height: 743px;
+          background:url(/media/health.jpg);
+          background-size: cover;
+          opacity: 0.9;
+      }
+
+      .box1{
+          position: relative;
+          top: 100px;
+          left: 85px;
+          line-height: 150px;
+          font-size: 110px;
+          color: #fff;
+          font-weight: bold;
+      }
+
+      .box2{
+          position: relative;
+          top: 350px;
+          left: 85px;
+          line-height: 150px;
+          font-size: 110px;
+          color: #fff;
+          font-weight: bold;
+      }
+
+      .box3{
+          position: relative;
+          top: 100px;
+          left: 890px;
+          line-height: 190px;
+          font-size: 100px;
+          color: #fff;
+          font-weight: bold;
+      }
+
+      a {
+          color: #000;
+          text-decoration-line: none;
+      }
+  </style>
+
+<body>
+  <section id="slider1" class="slider">
+    <div class="box1">운동, <br> 너도 할 수 있어!</div>
+    <div class="box2">사진 한 장으로 <br> 헬린이 탈출!</div>
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+      <button class="btn btn-light" type="button" style="font-size: 64px; padding: 15px 135px; font-weight: bold; border-radius: 40px; opacity: 0.9;"><a href="{% url 'exercise:upload'%}">시작하기</a></button>
+    </div>
+  </section>
+</body>
+
+  <script>
+    function Slider(target, type) {
+      // 상태
+      let index = 0;
+      let isMoved = true;
+      const speed = 2000; // ms
+    
+      // 방향
+      const transform = "transform " + speed / 1000 + "s";
+      let translate = (i) => "translateX(-" + 100 * i + "%)";
+      if (type === "V") {
+        translate = (i) => "translateY(-" + 100 * i + "%)";
+      }
+    
+      // 슬라이더
+      const slider = document.querySelector(target);
+      const sliderRects = slider.getClientRects()[0];
+      slider.style["overflow"] = "hidden";
+    
+      // 슬라이더 화면 컨테이너
+      const container = document.createElement("div");
+      container.style["display"] = "flex";
+      container.style["flex-direction"] = type === "V" ? "column" : "row";
+      container.style["width"] = sliderRects.width + "px";
+      container.style["height"] = sliderRects.height + "px";
+      container.style["transform"] = translate(index);
+    
+      // 슬라이더 화면 목록
+      let boxes = [].slice.call(slider.children);
+      boxes = [].concat(boxes[boxes.length - 1], boxes, boxes[0]);
+    
+      // 슬라이더 화면 스타일
+      const size = boxes.length;
+      for (let i = 0; i < size; i++) {
+        const box = boxes[i];
+        box.style["flex"] = "none";
+        box.style["flex-wrap"] = "wrap";
+        box.style["height"] = "100%";
+        box.style["width"] = "100%";
+        container.appendChild(box.cloneNode(true));
+      }
+    
+      // 처음, 마지막 화면 눈속임 이벤트
+      container.addEventListener("transitionstart", function () {
+        isMoved = false;
+        setTimeout(() => {
+          isMoved = true;
+        }, speed);
+      });
+      container.addEventListener("transitionend", function () {
+        // 처음으로 순간이동
+        if (index === size - 1) {
+          index = 1;
+          container.style["transition"] = "none";
+          container.style["transform"] = translate(index);
+        }
+        // 끝으로 순간이동
+        if (index === 0) {
+          index = size - 2;
+          container.style["transition"] = "none";
+          container.style["transform"] = translate(index);
+        }
+      });
+    
+      // 슬라이더 붙이기
+      slider.innerHTML = "";
+      slider.appendChild(container);
+    
+      return {
+        move: function (i) {
+          if (isMoved === true) {
+            index = i;
+            container.style["transition"] = transform;
+            container.style["transform"] = translate(index);
+          }
+        },
+        next: function () {
+          if (isMoved === true) {
+            index = (index + 1) % size;
+            container.style["transition"] = transform;
+            container.style["transform"] = translate(index);
+          }
+        },
+        prev: function () {
+          if (isMoved === true) {
+            index = index === 0 ? index + size : index;
+            index = (index - 1) % size;
+            container.style["transition"] = transform;
+            container.style["transform"] = translate(index);
+          }
+        },
+        getSize : function() {
+            return size;
+        }
+      };
+    }
+    
+      const s1 = new Slider("#slider1", "H");
+      let currentIdx = 0;
+      const total = s1.getSize()
+    
+      function runSlider() {
+          if(currentIdx < total){
+          s1.next();
+          currentIdx++;
+          setTimeout(runSlider, 1000);
+          }
+      }
+      runSlider();
+  </script>
+</html>

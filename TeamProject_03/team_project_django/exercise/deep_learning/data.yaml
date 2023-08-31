@@ -1,0 +1,24 @@
+names:
+- arm-curl
+- back-extension
+- cable-lat-pulldown
+- chest-fly
+- chest-press
+- dip-chin-assist
+- hip-abduction-adduction
+- lat-pulldown
+- leg-extension
+- leg-press
+- lying-down-leg-curl
+- overhead-shoulder-press
+- smith-machine
+nc: 13
+roboflow:
+  license: CC BY 4.0
+  project: exercise-machine-team-project
+  url: https://universe.roboflow.com/miimeunm/exercise-machine-team-project/dataset/1
+  version: 1
+  workspace: miimeunm
+test: ../test/images
+train: /content/drive/MyDrive/dataset/DLTP/train/images
+val: /content/drive/MyDrive/dataset/DLTP/test/images
