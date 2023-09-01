@@ -77,14 +77,12 @@ def predict(request):
     predict_result = Exercise.objects.get(ex_name = ex_pred_name)
     pre_index = predict_result.id
     pre_name = predict_result.ex_name
-    pre_video1 = predict_result.ex_video1
-    pre_video2 = predict_result.ex_video2
     pre_text = predict_result.ex_method
     pre_text = pre_text.replace(". ", ".<br>")
 
     # 머신러닝 모델 학습
     mac_predict = inference.machine_inference(ex_pred_part)
-
+    
     name_predict = mac_predict.ex_name.tolist()
     index_predict = mac_predict.index.tolist()
     
@@ -101,13 +99,11 @@ def predict(request):
     zip_data = zip(name, index)
     
     context = {
-        'ex_per' : ex_per, 
-        'img_data' : img_data,
         'predict_result' : predict_result,
-        'zip_data' : zip_data,
-        'pre_video1' : pre_video1,
-        'pre_video2' : pre_video2,
+        'img_data' : img_data,
+        'ex_per' : ex_per, 
         'pre_text' : pre_text,
+        'zip_data' : zip_data,
     }
     
     return render(request, 'exercise/predict.html', context)
@@ -117,16 +113,12 @@ def recommend(request, id):
 
     # 추천 운동 객체의 값들
     ex_detail = Exercise.objects.get(id=id)
-    ex_video1 = ex_detail.ex_video1
-    ex_video2 = ex_detail.ex_video2
     ex_text = ex_detail.ex_method
     ex_text = ex_text.replace(". ",".<br>")
     
     context = {
         'ex_detail' : ex_detail,
         'ex_text' : ex_text,
-        'ex_video1' : ex_video1,
-        'ex_video2' : ex_video2,
     }
 
     return render(request, 'exercise/recommend.html', context)

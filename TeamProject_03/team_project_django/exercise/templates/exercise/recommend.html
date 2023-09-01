@@ -1,15 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="title icon" type="image/png" href="/media/health_photo.jpg">
+    <link rel="title icon" type="image/png" href="{% static 'exercise/image/health_icon.jpg'%}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/edbd1d6033.js" crossorigin="anonymous"></script>       
-    <title>추천 운동 페이지</title>
+    <title>운동, 너도 할 수 있어!</title>
 
     <style>
         body {
@@ -39,7 +40,7 @@
             margin-left: 725px;
             position: absolute;
             width: 180px;
-            height: 47px; 
+            height: 55px; 
             padding: 5px 10px;
             background-color: #007bff;
             color: #fff;
@@ -52,7 +53,7 @@
             margin-left: 525px;
             position: absolute;
             width: 180px;
-            height: 47px; 
+            height: 55px; 
             padding: 5px 10px;
             background-color: #007bff;
             color: #fff;
@@ -68,7 +69,7 @@
         .ex-info {
             width: 1400px;
             margin-top: 15px;
-            margin-right: 10px;
+            margin-right: 20px;
             text-align: center;
             overflow-y: auto;           /* 상단 결과화면 위치설정 */
             display: flex;
@@ -96,7 +97,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-dark"> <!-- CSS -->
         <div class="container-fluid">
-            <a href="{% url 'exercise:index' %}" class="navbar-brand"><i class="fa-solid fa-dumbbell text-warning fa-2x"> H e a l t h</i></a>
+            <a href="{% url 'exercise:index' %}" class="navbar-brand"><i class="fa-solid fa-dumbbell text-warning fa-2x" style="letter-spacing : 0.2rem"> You Can Do It</i></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -119,11 +120,10 @@
         <section>
             <h3 class="h1-b">운동 영상</h3>
             <div align="center">
-                {% load static %}
                 <video class="video-margin" width="512" height="288" controls>
-                    <source src="{% static ''|add:ex_video1 %}" type="video/mp4"></source>
+                    <source src="{% static 'exercise/video/'|add:ex_detail.ex_video1 %}" type="video/mp4"></source>
                 </video>
-                <iframe class="video-margin" width="512" height="288" src="{{ ex_video2 }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe class="video-margin" width="512" height="288" src="{{ ex_detail.ex_video2 }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
         </section>
     
@@ -141,7 +141,7 @@
         </div>    
     </div>
 
-    <hr><br><br>
+    <br><br>
     <div class="btn-container">
         <button type="button" class="fixed-btn" onclick="movetobackpage()">이전 화면으로 이동</button>
         <button type="button" class="fixed-btn2" onclick="movetomainpage()">메인 화면으로 이동</button>
