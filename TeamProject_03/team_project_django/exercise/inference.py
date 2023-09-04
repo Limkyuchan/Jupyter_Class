@@ -48,41 +48,22 @@ def deep_inference(img):
 # 머신 러닝 모델
 def machine_inference(part):
     
-    # db에 저장된 csv 내용 가져오기
-    con = sqlite3.connect("db.sqlite3")
-    df = pd.read_sql("SELECT * FROM exercise_exercise", con, index_col="id")
-    pd.set_option('display.max_colwidth', None)
-    
-    # 파일로 저장된 머신러닝 모델 활용
-    exercise_weight = joblib.load('exercise/machine_learning/exercise_weight.pkl')
-    sorted_ind = exercise_weight.argsort()[:, ::-1]
-    
-    name_title = df[df['ex_part'] == part]
-    name_index = name_title.index.values
-    index = sorted_ind[name_index]
-    index = index.reshape(-1)
+    try:
+        # db에 저장된 csv 내용 가져오기
+        con = sqlite3.connect("db.sqlite3")
+        df = pd.read_sql("SELECT * FROM exercise_exercise", con, index_col="id")
+        pd.set_option('display.max_colwidth', None)
+        
+        # 파일로 저장된 머신러닝 모델 활용
+        exercise_weight = joblib.load('exercise/machine_learning/exercise_weight.pkl')
+        sorted_ind = exercise_weight.argsort()[:, ::-1]
+        
+        name_title = df[df['ex_part'] == part]
+        name_index = name_title.index.values
+        index = sorted_ind[name_index]
+        index = index.reshape(-1)
 
-    return df.iloc[index][:6]
-
-        
-    # try:
-    #     # db에 저장된 csv 내용 가져오기
-    #     con = sqlite3.connect("db.sqlite3")
-    #     df = pd.read_sql("SELECT * FROM exercise_exercise", con, index_col="id")
-    #     pd.set_option('display.max_colwidth', None)
-        
-    #     # 파일로 저장된 머신러닝 모델 활용
-    #     exercise_weight = joblib.load('exercise/machine_learning/exercise_weight.pkl')
-    #     sorted_ind = exercise_weight.argsort()[:, ::-1]
-        
-    #     name_title = df[df['ex_part'] == part]
-    #     name_index = name_title.index.values
-    #     index = sorted_ind[name_index]
-    #     index = index.reshape(-1)
-    #     print("111111", df.iloc[id][:6])
-    #     print("222222", df.iloc[index][:6])
-        
-    #     return df.iloc[index][:6]
+        return df.iloc[index][:6]
     
-    # except:
-    #     print("머신 러닝 모델 학습 중 오류발생!")
+    except:
+        print("머신 러닝 모델 학습 중 오류발생!")
